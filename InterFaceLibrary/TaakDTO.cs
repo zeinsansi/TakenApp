@@ -8,15 +8,18 @@ namespace InterFaceLibrary
 {
     public class TaakDTO
     {
-        /// <summary>  De unieke id van de Taak </summary>
-        public int Id;
-        /// <summary>  De naam van de Taak </summary>
-        public string Naam;
-        /// <summary>  De beschrijving van de taak  </summary>
-        public string Beschrijving;
-        /// <summary>  Het deadline van de taak  </summary>
-        public DateTime Deadline;
-
+        //Fields
+        public int Id { get; set; }
+        public string Naam { get; set; }
+        public string Beschrijving { get; set; }
+        public DateTime Deadline { get; set; }
+        /// <summary>
+        /// Constructor voor TaakDTO
+        /// </summary>
+        /// <param name="id">Taak Id</param>
+        /// <param name="name">Taaknaam</param>
+        /// <param name="beschrijving">Taakbeschrijving</param>
+        /// <param name="deadline">Taakdeadline</param>
         public TaakDTO(int id, string name, string beschrijving, DateTime deadline)
         {
             Id = id;

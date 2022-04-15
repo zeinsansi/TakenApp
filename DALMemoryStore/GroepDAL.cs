@@ -12,7 +12,10 @@ namespace DALMemoryStore
     public class GroepDAL : IGroepContainer
     {
         ConnectionDb connectionDb = new ConnectionDb();
-
+        /// <summary>
+        /// Voegt een groep toe aan de database
+        /// </summary>
+        /// <param name="groep">GroepDTO</param>
         public void Create(GroepDTO groep)
         {
             connectionDb.OpenConnection();
@@ -23,6 +26,10 @@ namespace DALMemoryStore
             command.ExecuteNonQuery();
             connectionDb.CloseConnection();
         }
+        /// <summary>
+        /// Haalt alle groepen op uit de database
+        /// </summary>
+        /// <returns>List met GroepDTOs</returns>
         public List<GroepDTO> GetAll()
         {
             List<GroepDTO> groepen = new List<GroepDTO>();
@@ -44,7 +51,10 @@ namespace DALMemoryStore
             connectionDb.CloseConnection();
             return groepen;
         }
-
+        /// <summary>
+        /// Verwijdert een groep uit de database
+        /// </summary>
+        /// <param name="dto">GroepDTO</param>
         public void Delete(GroepDTO dto)
         {
             connectionDb.OpenConnection();
@@ -59,7 +69,11 @@ namespace DALMemoryStore
             command.ExecuteNonQuery();
             connectionDb.CloseConnection();
         }
-
+        /// <summary>
+        /// Voegt een bepaalde persoon toe aan een bepaalde groep
+        /// </summary>
+        /// <param name="groepId">Grope Id</param>
+        /// <param name="gebruikersNaam">Persoon gebruikersnaam</param>
         public void VoegPersoonAanGroep(int groepId, string gebruikersNaam)
         {
             connectionDb.OpenConnection();
@@ -74,7 +88,11 @@ namespace DALMemoryStore
             command.ExecuteNonQuery();
             connectionDb.CloseConnection();
         }
-
+        /// <summary>
+        /// Zoekt een bepaalde groep op met een bepaalde id
+        /// </summary>
+        /// <param name="id">Groep Id</param>
+        /// <returns>GroepDTO</returns>
         public GroepDTO FindById(int id)
         {
             GroepDTO dto = null;

@@ -14,7 +14,9 @@ namespace DALMemoryStore
         public string data = File.ReadAllText(@"C:\Users\Windows 10 Pro\source\repos\TakenApp\DALMemoryStore\DatabaseConfig.json");
         public SqlConnection? connection;
         public Rootobject root;
-
+        /// <summary>
+        /// Connect naar de database
+        /// </summary>
         public void OpenConnection()
         {
 
@@ -29,7 +31,9 @@ namespace DALMemoryStore
             }
             catch { }
         }
-
+        /// <summary>
+        /// Sluit de connectie met de database
+        /// </summary>
         public void CloseConnection()
         {
             try

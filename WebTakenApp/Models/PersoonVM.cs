@@ -5,6 +5,7 @@ namespace WebTakenApp.Models
 {
     public class PersoonVM
     {
+        //Fields
         public int Id;
         [Required(ErrorMessage = "Naam is verplicht")]
         [Display(Name = "Naam")]
@@ -20,7 +21,14 @@ namespace WebTakenApp.Models
         [DataType(DataType.Password)]
         public string Wachtwoord { get;  set; }
 
-
+        /// <summary>
+        /// Constructor voor PersoonVM
+        /// </summary>
+        /// <param name="id">Persoon Id</param>
+        /// <param name="name">Persoonnaam</param>
+        /// <param name="gebruikersnaam">Gebruikersnaam</param>
+        /// <param name="email">Persoon email</param>
+        /// <param name="wachtwoord">Persoon wachtwoord</param>
         public PersoonVM(int id, string name, string gebruikersnaam, string email, string wachtwoord)
         {
             Id = id;
@@ -29,6 +37,10 @@ namespace WebTakenApp.Models
             Email = email;
             Wachtwoord = wachtwoord;
         }
+        /// <summary>
+        /// Constructor voor PersoonVM die een Persoon meekrijgt
+        /// </summary>
+        /// <param name="persoon">Persoon</param>
         public PersoonVM(Persoon persoon)
         {
             this.Id = persoon.Id;

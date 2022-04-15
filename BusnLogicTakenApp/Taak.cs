@@ -4,20 +4,18 @@ namespace BusnLogicTakenApp
 {
     public class Taak
     {
-        /// <summary>  De unieke id van de Taak </summary>
+        //Fields
         public int Id { get; private set; }
-        /// <summary>  De naam van de Taak </summary>
         public string Naam { get; private set; }
-        /// <summary>  De beschrijving van de taak  </summary>
         public string Beschrijving { get; private set; }
-        /// <summary>  Het deadline van de taak  </summary>
         public DateTime Deadline { get; private set; }
         /// <summary>
-        /// 
+        /// Constructor voor Taak
         /// </summary>
-        /// <param name="Naam"></param>
-        /// <param name="Beschrijving"></param>
-        /// <param name="deadline"></param>
+        /// <param name="id">Taak Id</param>
+        /// <param name="Naam">Taaknaam</param>
+        /// <param name="Beschrijving">Taakbeschrijving</param>
+        /// <param name="deadline">Taakdeadline</param>
         public Taak(int id, string Naam, string Beschrijving, DateTime deadline)
         {
             this.Id = id;
@@ -25,7 +23,10 @@ namespace BusnLogicTakenApp
             this.Beschrijving = Beschrijving;
             this.Deadline = deadline;
         }
-
+        /// <summary>
+        /// Constructor voor Taak die een TaakDTO meekrijgt
+        /// </summary>
+        /// <param name="dto">TaakDTO</param>
         public Taak(TaakDTO dto)
         {           
             Id = dto.Id;
@@ -33,14 +34,22 @@ namespace BusnLogicTakenApp
             Beschrijving = dto.Beschrijving;
             Deadline = dto.Deadline;
         }
-
+        /// <summary>
+        /// Constructor voor Taak zonder ID
+        /// </summary>
+        /// <param name="naam">Taaknaam</param>
+        /// <param name="beschrijving">Taakbeschrijving</param>
+        /// <param name="deadline">Taakdeadline</param>
         public Taak(string naam, string beschrijving, DateTime deadline)
         {
             Naam = naam;
             Beschrijving = beschrijving;
             Deadline = deadline;
         }
-
+        /// <summary>
+        /// Geeft een TaakDTO terug van een Taak
+        /// </summary>
+        /// <returns>TaakDTO</returns>
         public TaakDTO GetDTO()
         {
             TaakDTO dto = new TaakDTO(Id, Naam, Beschrijving, Deadline);

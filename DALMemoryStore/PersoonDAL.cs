@@ -13,10 +13,10 @@ namespace DALMemoryStore
     {
         ConnectionDb connectionDb = new ConnectionDb();
         /// <summary>
-        /// Haalt
+        /// Haalt alle personen in een bepaalde groep op uit de database
         /// </summary>
-        /// <param name="groepId"></param>
-        /// <returns></returns>
+        /// <param name="groepId">Groep Id</param>
+        /// <returns>List met PersoonDTOs</returns>
         public List<PersoonDTO> FindByGroepId(int groepId)
         {
             connectionDb.OpenConnection();
@@ -45,6 +45,11 @@ namespace DALMemoryStore
                 return Groepsleden;
             }
         }
+        /// <summary>
+        /// Voegt een persoon toe aan de database
+        /// </summary>
+        /// <param name="persoon">Persoon</param>
+        /// <param name="newWachtwoord">Gebruiker new wachtwoord</param>
         public void Create(PersoonDTO persoon, string newWachtwoord)
         {
             string wachtwoordHash = BCrypt.Net.BCrypt.EnhancedHashPassword (newWachtwoord, 13);
@@ -57,7 +62,12 @@ namespace DALMemoryStore
             command.ExecuteNonQuery();
             connectionDb.CloseConnection();
         }
-
+        /// <summary>
+        /// Zoekt een persson uit met een bepaalde gebruikersnaam en wachtwoordhash
+        /// </summary>
+        /// <param name="gebruikernaam">Gebruikersnaam</param>
+        /// <param name="wachtwoord">Wachtwoord</param>
+        /// <returns></returns>
         public PersoonDTO LogIn(string gebruikernaam, string wachtwoord)
         {
             connectionDb.OpenConnection();
@@ -89,7 +99,11 @@ namespace DALMemoryStore
             connectionDb.CloseConnection();
             return persoon;
         }
-
+        /// <summary>
+        /// Zoekt een persoon uit met een bepaalde id
+        /// </summary>
+        /// <param name="id">Persoon Id</param>
+        /// <returns>PersoonDTO</returns>
         public PersoonDTO FindByID(int id)
         {
             connectionDb.OpenConnection();

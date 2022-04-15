@@ -10,11 +10,19 @@ namespace BusnLogicTakenApp
     public class PersoonContainer
     {
         private readonly IPersoonContainer container;
-
+        /// <summary>
+        /// Constructor voor de PersoonContainer Die een IPersoonContainer implementatie aanroept
+        /// </summary>
+        /// <param name="container">IPersoonContainer</param>
         public PersoonContainer(IPersoonContainer container)
         {
             this.container = container;
         }
+        /// <summary>
+        /// Geeft een list van personen die in een bepaalde groep zitten
+        /// </summary>
+        /// <param name="groepId">Groep Id</param>
+        /// <returns></returns>
         public List<Persoon>  FindByGroepId(int groepId)
         {
             List<PersoonDTO> dtos = container.FindByGroepId(groepId);
@@ -25,11 +33,22 @@ namespace BusnLogicTakenApp
             }
             return groepLeden;
         }
+        /// <summary>
+        /// Maakt een nieuwe persoon aan
+        /// </summary>
+        /// <param name="persoon">Persoon</param>
+        /// <param name="newWachtwoord">Wachtwoord</param>
         public void Create(Persoon persoon, string newWachtwoord)
         {
             PersoonDTO dto = persoon.GetDTO();
             container.Create(dto, newWachtwoord);
         }
+        /// <summary>
+        /// Zoekt naar een bepaalde persoon met een bepaalde gebruikernaam en wachtwoord
+        /// </summary>
+        /// <param name="gebruikersnaam"></param>
+        /// <param name="wachtwoord"></param>
+        /// <returns></returns>
         public Persoon LogIn(string gebruikersnaam, string wachtwoord)
         {
             PersoonDTO dto = container.LogIn(gebruikersnaam, wachtwoord);
@@ -42,7 +61,11 @@ namespace BusnLogicTakenApp
                 return new Persoon(dto);
             }
         }
-        
+        /// <summary>
+        /// Zoekt naar een bepaalde persoon met een bepaalde Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Persoon FindById(int id)
         {
             PersoonDTO dto = container.FindByID(id);

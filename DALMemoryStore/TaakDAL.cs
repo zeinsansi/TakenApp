@@ -6,7 +6,12 @@ namespace DALMemoryStore
     public class TaakDAL : ITaakContainer
     {
         ConnectionDb connectionDb = new ConnectionDb();
-
+        /// <summary>
+        /// Zoekt een taak op van een bepaalde persoon in een bepaalde groep
+        /// </summary>
+        /// <param name="groepId">Groep Id</param>
+        /// <param name="persoonId">Persoon Id</param>
+        /// <returns>List van TaakDTOs</returns>
         public List<TaakDTO> FindByPersoonInGroep(int groepId, int persoonId)
         {
             List<TaakDTO> taken = new List<TaakDTO>();
@@ -34,7 +39,10 @@ namespace DALMemoryStore
                 return taken;
             }
         }
-
+        /// <summary>
+        /// Verwijdert een taak
+        /// </summary>
+        /// <param name="taak">Taak</param>
         public void Delete(TaakDTO taak) 
         {
             connectionDb.OpenConnection();
@@ -43,7 +51,12 @@ namespace DALMemoryStore
             command.ExecuteNonQuery();
             connectionDb.CloseConnection();
         }
-
+        /// <summary>
+        /// Voegt een taak toe
+        /// </summary>
+        /// <param name="taak">Taak</param>
+        /// <param name="groepId">Groep Id</param>
+        /// <param name="persoonId">Persoon Id</param>
         public void Create(TaakDTO taak, int groepId, int persoonId)
         {
             connectionDb.OpenConnection();

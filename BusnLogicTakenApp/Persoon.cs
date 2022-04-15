@@ -9,24 +9,27 @@ namespace BusnLogicTakenApp
 {
     public class Persoon
     {
+        //Fields
         public int Id { get; private set; }
-        /// <summary>  De naam van de persoon  </summary>
         public string Naam { get; private set; }
-        /// <summary> /// De unieke gebruikersnaan van de persoon /// </summary>
         public string Gebruikersnaam { get; private set; }
         public string Email { get; private set; }
+        
         /// <summary>
-        /// 
+        /// Constuctor voor de Persoon class zonder Id
         /// </summary>
-        /// <param name="Naam"></param>
-        /// <param name="GebruikerNaam"></param>
+        /// <param name="Naam">Persoon naam</param>
+        /// <param name="GebruikerNaam">Gebruikernaam</param>
         public Persoon(string Naam, string GebruikerNaam, string Email)
         {
             this.Naam = Naam;
             this.Gebruikersnaam = GebruikerNaam;
             this.Email = Email;
         }
-
+        /// <summary>
+        /// Constuctor voor de Persoon class die een PersoonDTO meekrijgt
+        /// </summary>
+        /// <param name="dto"></param>
         public Persoon(PersoonDTO dto)
         {
 
@@ -36,7 +39,10 @@ namespace BusnLogicTakenApp
             Email = dto.Email;
 
         }
-
+        /// <summary>
+        /// Methode om van een Persoon een PersoonDTO te maken
+        /// </summary>
+        /// <returns>PersoonDTO</returns>
         internal PersoonDTO GetDTO()
         {
             PersoonDTO dto = new PersoonDTO(Naam, Id, Gebruikersnaam, Email);

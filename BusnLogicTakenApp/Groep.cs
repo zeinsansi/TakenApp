@@ -9,22 +9,19 @@ namespace BusnLogicTakenApp
 {
     public class Groep
     {
+        //Fields
         public int Id { get; private set; }
-        /// <summary>  De naam van de groep  </summary>
-       /* private string Naam;*/
         public string Naam { get; private set; }
-        /// <summary>  De naam van de groep project  </summary>
         public string ProjectNaam { get; private set; }
-        /// <summary>  De beschrijving van groep project  </summary>
         public string ProjectBeschrijving { get; private set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Naam"></param>
-        /// <param name="ProjectNaam"></param>
-        /// <param name="ProjectBeschrijving"></param>
-        /// 
         public List<Persoon> GroepLeden { get; set; } = new List<Persoon>();
+        /// <summary>
+        /// Constructor voor groep
+        /// </summary>
+        /// <param name="Id">Groep Id</param>
+        /// <param name="Naam">Groep Naam</param>
+        /// <param name="ProjectNaam">Project Naam</param>
+        /// <param name="ProjectBeschrijving">Project Beschrijving</param>
         public Groep(int Id, string Naam, string ProjectNaam, string ProjectBeschrijving)
         {
             this.Id = Id;
@@ -33,6 +30,12 @@ namespace BusnLogicTakenApp
             this.ProjectBeschrijving = ProjectBeschrijving;
 
         }
+        /// <summary>
+        /// Controctor voor groep zonder Id
+        /// </summary>
+        /// <param name="Naam">Groep Naam</param>
+        /// <param name="ProjectNaam">Project Naam</param>
+        /// <param name="ProjectBeschrijving">Project Beschrijving</param>
         public Groep( string Naam, string ProjectNaam, string ProjectBeschrijving)
         {
             this.Naam = Naam;
@@ -40,7 +43,10 @@ namespace BusnLogicTakenApp
             this.ProjectBeschrijving = ProjectBeschrijving;
 
         }
-
+        /// <summary>
+        /// Constroctor voor groep die GroepDTO krijgt
+        /// </summary>
+        /// <param name="dto">GroepDTO</param>
         public Groep(GroepDTO dto)
         {
             Id = dto.Id;
@@ -52,7 +58,10 @@ namespace BusnLogicTakenApp
                 GroepLeden.Add(new Persoon(d));
             }
         }
-
+        /// <summary>
+        /// Methode die geeft GroepDTO terug
+        /// </summary>
+        /// <returns>Geeft een GroepDTO terug</returns>
         public GroepDTO GetDTO()
         {
             GroepDTO dto = new GroepDTO(Naam, Id, ProjectNaam, ProjectBeschrijving);
