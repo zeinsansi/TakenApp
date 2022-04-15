@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BusnLogicTakenApp\BusnLogicTakenApp.csproj" />
+    <ProjectReference Include="..\TaakVerdelingLibrary\TaakVerdelingLibrary.csproj" />\BusnLogicTakenApp\BusnLogicTakenApp.csproj
+  </ItemGroup>
+
+</Project>

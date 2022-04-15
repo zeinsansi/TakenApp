@@ -1,0 +1,18 @@
+﻿@using WebTakenApp.Models
+@model List<GroepVM>
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="sidenav">
+    <h6>Mijn groepen</h6>
+    @foreach (GroepVM groep in Model)
+    {
+        <a asp-controller="Persoon" asp-action="Index" asp-route-groepId=@groep.Id>@groep.Naam</a>
+    }
+</div>
+
+
+
+
+
+

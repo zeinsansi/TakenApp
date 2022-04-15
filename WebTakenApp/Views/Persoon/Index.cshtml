@@ -1,0 +1,14 @@
+﻿@model GroepVM
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="rightSidebar">
+    <h6>Groep leden</h6>
+    @foreach (PersoonVM persoon in Model.personen)
+    {
+        @*<a href=#>@persoon.Naam</a>*@
+        <p> @persoon.Naam</p>
+    }
+</div>
+
