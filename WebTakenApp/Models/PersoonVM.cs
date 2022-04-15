@@ -52,6 +52,10 @@ namespace WebTakenApp.Models
         {
 
         }
+        /// <summary>
+        /// Geeft een Persoon terug
+        /// </summary>
+        /// <returns>Persoon</returns>
         public Persoon GetPersoon()
         {
             return new Persoon( this.Naam, this.Gebruikersnaam, this.Email);
