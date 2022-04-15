@@ -45,14 +45,15 @@ namespace DALMemoryStore
                 return Groepsleden;
             }
         }
-        public void Create(PersoonDTO persoon)
+        public void Create(PersoonDTO persoon, string newWachtwoord)
         {
+            string wachtwoordHash = BCrypt.Net.BCrypt.EnhancedHashPassword (newWachtwoord, 13);
             connectionDb.OpenConnection();
-            SqlCommand command = new SqlCommand("INSERT INTO Persoon VALUES(@naam , @gebruikersnaam, @email, @wachtwoord)", connectionDb.connection);
+            SqlCommand command = new SqlCommand("INSERT INTO Persoon VALUES(@naam , @gebruikersnaam, @email, @newWachtwoord)", connectionDb.connection);
             command.Parameters.AddWithValue("@naam", persoon.Naam);
             command.Parameters.AddWithValue("@gebruikersnaam", persoon.Gebruikersnaam);
             command.Parameters.AddWithValue("@email", persoon.Email);
-            command.Parameters.AddWithValue("@wachtwoord", persoon.Wachtwoord);
+            command.Parameters.AddWithValue("@newWachtwoord", wachtwoordHash);
             command.ExecuteNonQuery();
             connectionDb.CloseConnection();
         }
@@ -61,9 +62,40 @@ namespace DALMemoryStore
         {
             connectionDb.OpenConnection();
             PersoonDTO persoon = new PersoonDTO();
-            SqlCommand command = new SqlCommand("SELECT * FROM Persoon WHERE Gebruikersnaam = @gebruikersnaam AND Wachtwoord = @wachtwoord", connectionDb.connection);
+            SqlCommand command = new SqlCommand("SELECT WachtwoordHash, Id FROM Persoon WHERE Gebruikersnaam = @gebruikersnaam", connectionDb.connection);
             command.Parameters.AddWithValue("@gebruikersnaam", gebruikernaam);
-            command.Parameters.AddWithValue("@wachtwoord",  wachtwoord);
+            SqlDataReader dr = command.ExecuteReader();
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    persoon.Id = Convert.ToInt32(dr["Id"]);
+                    persoon.WachtwoordHash = dr["WachtwoordHash"].ToString();
+                    bool isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, persoon.WachtwoordHash);
+                    if (isValid)
+                    {
+                        persoon = FindByID(persoon.Id);
+                    }
+                    else
+                    {
+                        persoon = null;
+                    }
+                }
+            }
+            else
+            {
+                persoon = null;
+            }
+            connectionDb.CloseConnection();
+            return persoon;
+        }
+
+        public PersoonDTO FindByID(int id)
+        {
+            connectionDb.OpenConnection();
+            PersoonDTO persoon = new PersoonDTO();
+            SqlCommand command = new SqlCommand("SELECT * FROM Persoon WHERE Id = @id", connectionDb.connection);
+            command.Parameters.AddWithValue("@id", id);
             SqlDataReader dr = command.ExecuteReader();
             if (dr.HasRows)
             {
@@ -73,7 +105,6 @@ namespace DALMemoryStore
                     persoon.Naam = dr["Naam"].ToString();
                     persoon.Gebruikersnaam = dr["Gebruikersnaam"].ToString();
                     persoon.Email = dr["Email"].ToString();
-                    persoon.Wachtwoord = dr["Wachtwoord"].ToString();
                 }
             }
             else

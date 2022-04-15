@@ -8,24 +8,31 @@ namespace InterFaceLibrary
 {
     public class PersoonDTO
     {
-        public string Naam;
-        public int Id;
-        public string Gebruikersnaam;
-        public string Email;
-        public string Wachtwoord;
+        public string Naam { get; set; }
+        public int Id { get; set; }
+        public string Gebruikersnaam { get; set; }
+        public string Email { get; set; }
+        public string WachtwoordHash { get; set; }
 
         public PersoonDTO()
         {
         }
 
-        public PersoonDTO(string name, int id, string gebruikersnaam, string email, string wachtwoord)
+        public PersoonDTO(string name, int id, string gebruikersnaam, string email, string wachtwoordHash)
         {
             Naam = name;
             Id = id;
             Gebruikersnaam = gebruikersnaam;
             Email = email;
-            Wachtwoord = wachtwoord;
+            WachtwoordHash = wachtwoordHash;
         }
-        
+
+        public PersoonDTO(string naam, int id, string gebruikersnaam, string email)
+        {
+            Naam = naam;
+            Id = id;
+            Gebruikersnaam = gebruikersnaam;
+            Email = email;
+        }
     }
 }

@@ -35,7 +35,6 @@ namespace WebTakenApp.Models
             this.Naam = persoon.Naam;
             this.Gebruikersnaam = persoon.Gebruikersnaam;
             this.Email = persoon.Email;
-            this.Wachtwoord = persoon.Wachtwoord;
         }
         public PersoonVM()
         {
@@ -43,7 +42,7 @@ namespace WebTakenApp.Models
         }
         public Persoon GetPersoon()
         {
-            return new Persoon( this.Naam, this.Gebruikersnaam, this.Email, this.Wachtwoord);
+            return new Persoon( this.Naam, this.Gebruikersnaam, this.Email);
         }
     }
 }

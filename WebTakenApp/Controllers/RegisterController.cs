@@ -22,7 +22,7 @@ namespace WebTakenApp.Controllers
         public IActionResult Create(PersoonVM persoon)
         {
             Persoon user = persoon.GetPersoon();
-            persoonContainer.Create(user);
+            persoonContainer.Create(user, persoon.Wachtwoord);
             ViewBag.Message = "Gebruiker is aangemaakt";
             return View(persoon);
         }

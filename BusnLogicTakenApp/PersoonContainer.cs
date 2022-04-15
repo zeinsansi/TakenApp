@@ -25,14 +25,28 @@ namespace BusnLogicTakenApp
             }
             return groepLeden;
         }
-        public void Create(Persoon persoon)
+        public void Create(Persoon persoon, string newWachtwoord)
         {
             PersoonDTO dto = persoon.GetDTO();
-            container.Create(dto);
+            container.Create(dto, newWachtwoord);
         }
-        public PersoonDTO LogIn(string gebruikersnaam, string wachtwoord)
+        public Persoon LogIn(string gebruikersnaam, string wachtwoord)
         {
-            return container.LogIn(gebruikersnaam, wachtwoord);
+            PersoonDTO dto = container.LogIn(gebruikersnaam, wachtwoord);
+            if (dto == null)
+            {
+                return null;
+            }
+            else
+            {
+                return new Persoon(dto);
+            }
+        }
+        
+        public Persoon FindById(int id)
+        {
+            PersoonDTO dto = container.FindByID(id);
+            return new Persoon(dto);
         }
     }
 }

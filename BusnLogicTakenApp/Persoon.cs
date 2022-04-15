@@ -15,18 +15,16 @@ namespace BusnLogicTakenApp
         /// <summary> /// De unieke gebruikersnaan van de persoon /// </summary>
         public string Gebruikersnaam { get; private set; }
         public string Email { get; private set; }
-        public string Wachtwoord { get; private set; }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Naam"></param>
         /// <param name="GebruikerNaam"></param>
-        public Persoon(string Naam, string GebruikerNaam, string Email, string Wachtwoord)
+        public Persoon(string Naam, string GebruikerNaam, string Email)
         {
             this.Naam = Naam;
             this.Gebruikersnaam = GebruikerNaam;
             this.Email = Email;
-            this.Wachtwoord = Wachtwoord;
         }
 
         public Persoon(PersoonDTO dto)
@@ -36,13 +34,12 @@ namespace BusnLogicTakenApp
             Naam = dto.Naam;
             Gebruikersnaam = dto.Gebruikersnaam;
             Email = dto.Email;
-            Wachtwoord = dto.Wachtwoord;
 
         }
 
         internal PersoonDTO GetDTO()
         {
-            PersoonDTO dto = new PersoonDTO(Naam, Id, Gebruikersnaam, Email, Wachtwoord);
+            PersoonDTO dto = new PersoonDTO(Naam, Id, Gebruikersnaam, Email);
             return dto;
         }
 
