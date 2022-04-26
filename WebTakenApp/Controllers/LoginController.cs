@@ -20,6 +20,8 @@ namespace WebTakenApp.Controllers
             {
                 if (persoonContainer.LogIn(login.Gebruikersnaam, login.Wachtwoord) != null)
                 {
+                    Persoon persoon = persoonContainer.FindByGebruikersnaam(login.Gebruikersnaam);
+                    HttpContext.Session.SetString("PersoonId", persoon.Id.ToString());
                     return RedirectToAction("Index", "Groep");
                 }
                 else
@@ -28,6 +30,11 @@ namespace WebTakenApp.Controllers
                 }
             }
             return View();
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

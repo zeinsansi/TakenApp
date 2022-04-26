@@ -37,8 +37,7 @@ namespace DALMemoryStore
                             dr["Naam"].ToString(),
                             Convert.ToInt32(dr["Id"]),
                             dr["Gebruikersnaam"].ToString(),
-                            dr["Email"].ToString(),
-                            dr["Wachtwoord"].ToString()));
+                            dr["Email"].ToString()));
                     }
                 }
                 connectionDb.CloseConnection();
@@ -110,6 +109,30 @@ namespace DALMemoryStore
             PersoonDTO persoon = new PersoonDTO();
             SqlCommand command = new SqlCommand("SELECT * FROM Persoon WHERE Id = @id", connectionDb.connection);
             command.Parameters.AddWithValue("@id", id);
+            SqlDataReader dr = command.ExecuteReader();
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    persoon.Id = Convert.ToInt32(dr["Id"]);
+                    persoon.Naam = dr["Naam"].ToString();
+                    persoon.Gebruikersnaam = dr["Gebruikersnaam"].ToString();
+                    persoon.Email = dr["Email"].ToString();
+                }
+            }
+            else
+            {
+                persoon = null;
+            }
+            connectionDb.CloseConnection();
+            return persoon;
+        }
+        public PersoonDTO FindByGebruikersnaam(string gebruikersnaam)
+        {
+            connectionDb.OpenConnection();
+            PersoonDTO persoon = new PersoonDTO();
+            SqlCommand command = new SqlCommand("SELECT * FROM Persoon WHERE Gebruikersnaam = @gebruikersnaam", connectionDb.connection);
+            command.Parameters.AddWithValue("@gebruikersnaam", gebruikersnaam);
             SqlDataReader dr = command.ExecuteReader();
             if (dr.HasRows)
             {

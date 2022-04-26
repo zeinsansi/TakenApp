@@ -11,13 +11,21 @@ namespace WebTakenApp.Controllers
 
         public IActionResult Index()
         {
-            List<Groep> groepen = groepContainer.GetAll();
-            List<GroepVM> groepViewModels = new List<GroepVM>();
-            foreach (Groep groep in groepen)
+            if (HttpContext.Session.GetString("PersoonId") != null)
             {
-                groepViewModels.Add(new GroepVM(groep.Id, groep.Naam, groep.ProjectNaam, groep.ProjectBeschrijving));
+                int persoonId = Convert.ToInt32(HttpContext.Session.GetString("PersoonId"));
+                List<Groep> groepen = groepContainer.GetAll();
+                List<GroepVM> groepViewModels = new List<GroepVM>();
+                foreach (Groep groep in groepen)
+                {
+                    groepViewModels.Add(new GroepVM(groep.Id, groep.Naam, groep.ProjectNaam, groep.ProjectBeschrijving));
+                }
+                return View(groepViewModels);
             }
-            return View(groepViewModels);
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
     }
 }

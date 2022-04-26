@@ -71,5 +71,10 @@ namespace BusnLogicTakenApp
             PersoonDTO dto = container.FindByID(id);
             return new Persoon(dto);
         }
+        public Persoon FindByGebruikersnaam(string gebruikersnaam)
+        {
+            PersoonDTO dto = container.FindByGebruikersnaam(gebruikersnaam);
+            return new Persoon(dto);
+        }
     }
 }

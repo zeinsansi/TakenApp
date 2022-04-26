@@ -6,7 +6,7 @@ namespace WebTakenApp.Models
     public class PersoonVM
     {
         //Fields
-        public int Id;
+        public int Id { get; set; }
         [Required(ErrorMessage = "Naam is verplicht")]
         [Display(Name = "Naam")]
         public string Naam { get; set; }
@@ -15,6 +15,7 @@ namespace WebTakenApp.Models
         public string Gebruikersnaam { get;  set; }
         [Required(ErrorMessage = "Email is verplicht")]
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get;  set; }
         [Required(ErrorMessage = "Wachtwoord is verplicht")]
         [Display(Name = "Wachtwoord")]

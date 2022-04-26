@@ -21,9 +21,13 @@ namespace WebTakenApp.Controllers
         [HttpPost]
         public IActionResult Create(PersoonVM persoon)
         {
-            Persoon user = persoon.GetPersoon();
-            persoonContainer.Create(user, persoon.Wachtwoord);
-            ViewBag.Message = "Gebruiker is aangemaakt";
+            if (ModelState.IsValid)
+            {
+                Persoon user = persoon.GetPersoon();
+                persoonContainer.Create(user, persoon.Wachtwoord);
+                ViewBag.Message = "Gebruiker is aangemaakt";
+                return RedirectToAction("Index","Login");
+            }
             return View(persoon);
         }
     }
