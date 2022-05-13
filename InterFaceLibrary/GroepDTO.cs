@@ -28,6 +28,14 @@ namespace InterFaceLibrary
             ProjectNaam = projectNaam;
             ProjectBeschrijving = projectBeschrijving;
         }
+        public GroepDTO(string name, int id, string projectNaam, string projectBeschrijving, List<PersoonDTO> groepLeden)
+        {
+            Naam = name;
+            Id = id;
+            ProjectNaam = projectNaam;
+            ProjectBeschrijving = projectBeschrijving;
+            GroepLeden = groepLeden;
+        }
 
         public override bool Equals(object? obj)
         {

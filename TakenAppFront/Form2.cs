@@ -35,8 +35,23 @@ namespace TakenAppFront
 
         private void MijnGroepn_Load(object sender, EventArgs e)
         {
-            lbMijnGroepen.DataSource = groepContainer.GetAll();
-            lbMijnGroepen.DisplayMember = "Naam";
+            try
+            {
+                lbMijnGroepen.DataSource = groepContainer.GetAll();
+                lbMijnGroepen.DisplayMember = "Naam";
+            }
+            catch (Exception)
+            {
+                DialogResult result = MessageBox.Show($"Groepen kunnen niet opgehaald worden. Check jouw verbinding", "Error", MessageBoxButtons.RetryCancel);
+                if (result == DialogResult.Retry)
+                {
+                    MijnGroepn_Load(sender, e);
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
         }
 
         private void lbMijnGroepen_SelectedIndexChanged(object sender, EventArgs e)
@@ -59,9 +74,18 @@ namespace TakenAppFront
 
         private void btnVoegGroeplidToe_Click(object sender, EventArgs e)
         {
-            Groep g = (Groep)lbMijnGroepen.SelectedItem;
-            groepContainer.VoegPersoonAanGroep(g.Id, tbGebruikerNaam.Text);
-            lbGroepleden.DataSource = persoonContainer.FindByGroepId(g.Id);
+
+            try
+            {
+                Groep g = (Groep)lbMijnGroepen.SelectedItem;
+                groepContainer.VoegPersoonAanGroep(g.Id, tbGebruikerNaam.Text);
+                lbGroepleden.DataSource = persoonContainer.FindByGroepId(g.Id);
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Gebruiker bestaat niet");
+            }
         }
 
         private void lbGroepleden_DoubleClick(object sender, EventArgs e)

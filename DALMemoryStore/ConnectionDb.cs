@@ -29,7 +29,10 @@ namespace DALMemoryStore
                     connection.Open();
                 }
             }
-            catch { }
+            catch
+            {
+                throw new Exception("Kan geen connectie maken");
+            }
         }
         /// <summary>
         /// Sluit de connectie met de database
@@ -41,7 +44,11 @@ namespace DALMemoryStore
                 if (connection != null)
                     connection.Close();
             }
-            catch { }
+            catch
+            {
+                throw new Exception("Kan de connectie niet sluiten");
+            }
+
         }
     }
 }

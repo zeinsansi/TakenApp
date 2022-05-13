@@ -1,18 +1,22 @@
-﻿@using WebTakenApp.Models
+﻿@using System.Security.Policy
+@using WebTakenApp.Models
 @model List<GroepVM>
 @{
     ViewData["Title"] = "Index";
 }
 <div class="sidenav">
-    <h6>Mijn groepen</h6>
-    @foreach (GroepVM groep in Model)
+    <h6>Mijn Groepen</h6> <br />
+    @foreach (var groep in Model)
     {
-        <a asp-controller="Persoon" asp-action="Index" asp-route-groepId=@groep.Id>@groep.Naam</a>
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">@groep.Naam</a>
+    <ul class="dropdown-menu">
+    @foreach (var persoon in groep.personen)
+    {
+    <li><a class="dropdown-item" href="@Url.Action("Index","Taak", new { groepId = groep.Id, persoonId = persoon.Id})">@persoon.Naam</a></li>
     }
+    </ul>
+    }
+    </div>
+<div class="main">
+  Rest van pagina
 </div>
-
-
-
-
-
-

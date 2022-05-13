@@ -1,0 +1,91 @@
+﻿@using WebTakenApp.Models
+@model dynamic
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="sidenav">
+    <h6>Mijn Groepen</h6> <br />
+    @foreach (var groep in Model.GroepVM)
+    {
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">@groep.Naam</a>
+        <ul class="dropdown-menu">
+            @foreach (var persoon in groep.personen)
+            {
+                <li><a class="dropdown-item" href="@Url.Action("Index","Taak", new { groepId = groep.Id, persoonId = persoon.Id})">@persoon.Naam</a></li>
+            }
+        </ul>
+    }
+</div>
+<div class="main">
+    <div class="container">
+        <table class="table table-striped table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col">Naam</th>
+                    <th scope="col">Beschrijving</th>
+                    <th scope="col">Deadline</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var taak in Model.TaakVM)
+                {
+                    int id = taak.Id;
+                    <tr>
+                        <td>
+                            <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                                @taak.Naam
+                            </a>
+                        </td>
+                        <td>
+                            <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                                @taak.Beschrijving
+                            </a>
+                        </td>
+                        <td>
+                            <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                                @taak.Deadline
+                            </a>
+                        </td>
+                    </tr> 
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <input type="text" class="form-control" placeholder="" />
+        </div>
+    </div>
+    <a data-bs-toggle="modal" href="#exampleModal" role="button" aria-controls="#exampleModal">
+        Taak toevoegen
+    </a>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nieuw Taak</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="InputNaam"  placeholder="Naam">
+                    <br />
+                    <textarea class="form-control" id="InputBeschrijving"rows="4" placeholder="Beschrijving"></textarea>
+                    <br />
+                    <label for="InputDeadline">Deadline</label>
+                    <input type="date" class="form-control" id="InputDeadline" placeholder="Deadline">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

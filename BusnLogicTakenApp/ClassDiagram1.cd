@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="BusnLogicTakenApp.Groep">
+    <Position X="13.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAIAAAAAEAAAABAAAAAQAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Groep.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="GroepLeden" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BusnLogicTakenApp.GroepContainer">
+    <Position X="13.75" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAABAAAAAAAAAAAAAAAAAAEBAEAAAgAAAAAAAAA=</HashCode>
+      <FileName>GroepContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusnLogicTakenApp.Persoon">
+    <Position X="9" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQAAACAAAAAEAAAABAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Persoon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusnLogicTakenApp.PersoonContainer">
+    <Position X="9" Y="3.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAACABAFAAAAAAAAAAAAA=</HashCode>
+      <FileName>PersoonContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusnLogicTakenApp.Taak">
+    <Position X="5.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEAAAABAAAAAAAAAAAAAUAAAEAAAA=</HashCode>
+      <FileName>Taak.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusnLogicTakenApp.TaakContainer">
+    <Position X="5" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>BCAAAAAAAAAAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>TaakContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
