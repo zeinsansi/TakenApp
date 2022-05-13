@@ -38,10 +38,9 @@ namespace BusnLogicTakenApp
         /// Verwijdert een taak
         /// </summary>
         /// <param name="taak">Taak</param>
-        public void Delete(Taak taak)
+        public void Delete(int taakId)
         {
-            TaakDTO dto = taak.GetDTO();
-            container.Delete(dto);
+            container.Delete(taakId);
         }
         /// <summary>
         /// Voegt een taak toe
@@ -49,10 +48,20 @@ namespace BusnLogicTakenApp
         /// <param name="taak">Taak</param>
         /// <param name="groepId">Groep Id</param>
         /// <param name="persoonId">Persoon Id</param>
-        public void Create(Taak taak, int groepId, int persoonId)
+        public void Create(Taak taak)
         {
             TaakDTO dto = taak.GetDTO();
-            container.Create(dto, groepId, persoonId);
+            container.Create(dto);
+        }
+        public void Update(Taak taak)
+        {
+            TaakDTO dto = taak.GetDTO();
+            container.Update(dto);
+        }
+        public Taak FindById(int taakId)
+        {
+            TaakDTO dto = container.FindById(taakId);
+            return new Taak(dto);
         }
     }
 }

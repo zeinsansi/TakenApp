@@ -13,6 +13,8 @@ namespace InterFaceLibrary
         public string Naam { get; set; }
         public string Beschrijving { get; set; }
         public DateTime Deadline { get; set; }
+        public int PersoonId { get;  set; }
+        public int GroepId { get;  set; }
         /// <summary>
         /// Constructor voor TaakDTO
         /// </summary>
@@ -20,12 +22,14 @@ namespace InterFaceLibrary
         /// <param name="name">Taaknaam</param>
         /// <param name="beschrijving">Taakbeschrijving</param>
         /// <param name="deadline">Taakdeadline</param>
-        public TaakDTO(int id, string name, string beschrijving, DateTime deadline)
+        public TaakDTO(int id, string name, string beschrijving, DateTime deadline, int persoonId, int groepId)
         {
             Id = id;
             Naam = name;
             Beschrijving = beschrijving;
             Deadline = deadline;
+            PersoonId = persoonId;
+            GroepId = groepId;
         }
 
         public override bool Equals(object? obj)
