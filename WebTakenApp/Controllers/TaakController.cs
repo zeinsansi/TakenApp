@@ -15,6 +15,9 @@ namespace WebTakenApp.Controllers
             int id = Convert.ToInt32(HttpContext.Session.GetString("PersoonId"));
             if (id != 0)
             {
+                TempData["groepId"] = groepId;
+                TempData["persoonId"] = persoonId;
+                TempData.Keep();
                 dynamic mymodel = new ExpandoObject();
                 mymodel.GroepVM = GetGroepVMs();
                 mymodel.TaakVM = GetTaakVMs(groepId, persoonId);
@@ -25,6 +28,71 @@ namespace WebTakenApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            TaakVM taakVM = new TaakVM();
+            return PartialView("_TaakModelPartial", taakVM);
+        }
+
+        [HttpPost]
+        public IActionResult Create(TaakVM taakVM)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                int groepId = Convert.ToInt32(TempData["groepId"]);
+                int persoonId = Convert.ToInt32(TempData["persoonId"]);
+                taakVM.GroepId = groepId;
+                taakVM.PersoonId = persoonId;
+                Taak taak = taakVM.GetTaak();
+                taakContainer.Create(taak);
+                ViewBag.Message = "Taak is toegevoegd";
+                return PartialView("_TaakModelPartial", taakVM);
+            }
+            return View(taakVM);
+            
+        }
+        
+        [HttpGet]
+        public IActionResult Update(int taakId)
+        {
+            Taak taak = taakContainer.FindById(taakId);
+            TaakVM taakVM = new TaakVM(taak);
+            return PartialView("_EditTaakModelPartial", taakVM);
+        }
+
+        [HttpPost]
+        public IActionResult Update(TaakVM taakVM)
+        {
+            if (ModelState.IsValid)
+            {
+                Taak taak = taakVM.GetTaak();
+                taakContainer.Update(taak);
+                ViewBag.Message = "Taak is Updated";
+                return PartialView("_EditTaakModelPartial", taakVM);
+            }
+            return View(taakVM);
+
+        }
+        [HttpGet]
+        public IActionResult Delete(int taakId)
+        {
+            Taak taak = taakContainer.FindById(taakId);
+            TaakVM taakVM = new TaakVM(taak);
+            return PartialView("_DeleteTaakModelPartial", taakVM);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(TaakVM taakVM)
+        {
+                Taak taak = taakVM.GetTaak();
+                taakContainer.Delete(taak.Id);
+                ViewBag.Message = "Taak is verwijderd";
+                return PartialView("_DeleteTaakModelPartial", taakVM);
+
+        }
+
         private List<GroepVM> GetGroepVMs()
         {
             List<Groep> groepen = groepContainer.GetAll();

@@ -33,8 +33,8 @@ namespace TakenAppFront
         {
             if (tbBeschrijving.Text != "" && tbNaam.Text != "")
             {
-                Taak taak = new Taak(tbNaam.Text, tbBeschrijving.Text, dpDeadline.Value);
-                taakContainer.Create(taak, groepId, persoonId);
+                Taak taak = new Taak(tbNaam.Text, tbBeschrijving.Text, dpDeadline.Value, persoonId, groepId);
+                taakContainer.Create(taak);
                 MessageBox.Show("Taak toegevoegd");
             }
             else

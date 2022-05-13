@@ -64,7 +64,7 @@ namespace TakenAppFront
             DialogResult result = MessageBox.Show($"{taak.ToString()}\nBent u klaar met deze taak?", "Taak Verwijderen?", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                taakContainer.Delete(taak);
+                taakContainer.Delete(taak.Id);
                 lbxTaken.DataSource = taakContainer.FindByPersoonInGroep(groepId, persoonId);
             }
         }

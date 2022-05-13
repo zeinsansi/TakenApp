@@ -3,8 +3,10 @@
     public interface ITaakContainer
     {
         public List<TaakDTO> FindByPersoonInGroep(int groepId, int persoonId);
-        public void Delete(TaakDTO taak);
-        public void Create(TaakDTO taak, int groepId, int persoonId);
+        public TaakDTO FindById(int taakId);
+        public void Delete(int taakId);
+        public void Create(TaakDTO taak);
+        public void Update(TaakDTO taak);
 
     }
 }

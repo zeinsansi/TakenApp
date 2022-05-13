@@ -34,7 +34,9 @@ namespace DALMemoryStore
                                 Convert.ToInt32(dr["Id"]),
                                 dr["Naam"].ToString(),
                                 dr["Beschrijving"].ToString(),
-                                Convert.ToDateTime(dr["Deadline"])));
+                                Convert.ToDateTime(dr["Deadline"]),
+                                Convert.ToInt32(dr["persoonId"]),
+                                Convert.ToInt32(dr["groepId"])));
                         }
                     }
                     connectionDb.CloseConnection();
@@ -50,13 +52,13 @@ namespace DALMemoryStore
         /// Verwijdert een taak
         /// </summary>
         /// <param name="taak">Taak</param>
-        public void Delete(TaakDTO taak) 
+        public void Delete(int taakId) 
         {
             try
             {
                 connectionDb.OpenConnection();
                 SqlCommand command = new SqlCommand("DELETE FROM Taak WHERE Id = @taakId", connectionDb.connection);
-                command.Parameters.AddWithValue("@taakId", taak.Id);
+                command.Parameters.AddWithValue("@taakId", taakId);
                 command.ExecuteNonQuery();
                 connectionDb.CloseConnection();
             }
@@ -71,7 +73,7 @@ namespace DALMemoryStore
         /// <param name="taak">Taak</param>
         /// <param name="groepId">Groep Id</param>
         /// <param name="persoonId">Persoon Id</param>
-        public void Create(TaakDTO taak, int groepId, int persoonId)
+        public void Create(TaakDTO taak)
         {
             try
             {
@@ -80,8 +82,8 @@ namespace DALMemoryStore
                 command.Parameters.AddWithValue("naam", taak.Naam);
                 command.Parameters.AddWithValue("@beshrijving", taak.Beschrijving);
                 command.Parameters.AddWithValue("@deadline", taak.Deadline);
-                command.Parameters.AddWithValue("@persoonId", persoonId);
-                command.Parameters.AddWithValue("@groepId", groepId);
+                command.Parameters.AddWithValue("@persoonId", taak.PersoonId);
+                command.Parameters.AddWithValue("@groepId", taak.GroepId);
                 command.ExecuteNonQuery();
                 connectionDb.CloseConnection();
             }
@@ -89,6 +91,47 @@ namespace DALMemoryStore
             {
                 throw new Exception("Kan geen taak maken");
             }
+        }
+
+        public TaakDTO FindById(int taakId)
+        {
+            connectionDb.OpenConnection();
+            string query = @"SELECT * FROM Taak 
+                 WHERE Id = @taakId";
+            using (SqlCommand command = new(query, connectionDb.connection))
+            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+            {
+                command.Parameters.AddWithValue("@taakId", taakId);
+                SqlDataReader dr = command.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        return new TaakDTO(
+                            Convert.ToInt32(dr["Id"]),
+                            dr["Naam"].ToString(),
+                            dr["Beschrijving"].ToString(),
+                            Convert.ToDateTime(dr["Deadline"]),
+                            Convert.ToInt32(dr["persoonId"]),
+                            Convert.ToInt32(dr["groepId"]));
+                    }
+                }
+                connectionDb.CloseConnection();
+                return null;
+            }
+        }
+
+        public void Update(TaakDTO taak)
+        {
+            connectionDb.OpenConnection();
+            SqlCommand command = new SqlCommand("UPDATE Taak SET Naam = @naam , Beschrijving = @beschrijving , Deadline = @deadline WHERE Id = @taakId", connectionDb.connection);
+            command.Parameters.AddWithValue("@naam", taak.Naam);
+            command.Parameters.AddWithValue("@beschrijving", taak.Beschrijving);
+            command.Parameters.AddWithValue("@deadline", taak.Deadline);
+            command.Parameters.AddWithValue("@taakId", taak.Id);
+            command.ExecuteNonQuery();
+            connectionDb.CloseConnection();
+            
         }
     }
 }
