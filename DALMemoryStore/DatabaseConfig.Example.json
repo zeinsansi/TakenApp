@@ -1,0 +1,7 @@
+{
+  "Servername": "mssqlstud.fhict.local",
+  "ConnectionString": "Server=YOURSERVERNAMEHERE;Database=YOURDATABASENAMEHERE;User Id=YOURUSERIDHERE;Password=YOURPASSWORDHERE;",
+  "Username": "YOURUSERIDHERE",
+  "Password": "YOURPASSWORDHERE",
+  "Database": "YOURDATABASENAMEHERE"
+}

@@ -13,27 +13,11 @@ namespace InterFaceLibrary
         public int Id { get; set; }
         public string Gebruikersnaam { get; set; }
         public string Email { get; set; }
-        public string WachtwoordHash { get; set; }
 
         public PersoonDTO()
         {
         }
-        /// <summary>
-        /// Constructor voor PersoonDTO
-        /// </summary>
-        /// <param name="name">Persoonnaam</param>
-        /// <param name="id">Persoon Id</param>
-        /// <param name="gebruikersnaam">Gebruikersnaam</param>
-        /// <param name="email">Persoon email</param>
-        /// <param name="wachtwoordHash">Persoon wachtwoordhash</param>
-        public PersoonDTO(string name, int id, string gebruikersnaam, string email, string wachtwoordHash)
-        {
-            Naam = name;
-            Id = id;
-            Gebruikersnaam = gebruikersnaam;
-            Email = email;
-            WachtwoordHash = wachtwoordHash;
-        }
+
         /// <summary>
         /// Constructor voor PersoonDTO zonder wachtwoordhash
         /// </summary>

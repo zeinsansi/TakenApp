@@ -1,4 +1,5 @@
-﻿using InterFaceLibrary;
+﻿using DALMemoryStore.Exceptions;
+using InterFaceLibrary;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -46,9 +47,13 @@ namespace DALMemoryStore
                     return Groepsleden;
                 }
             }
-            catch 
+            catch (TemporaryDalException)
             {
-                throw new Exception("Er is iets fout gegaan bij het ophalen van de groepsleden");
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (PermanentDalException)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
         /// <summary>
@@ -70,9 +75,13 @@ namespace DALMemoryStore
                 command.ExecuteNonQuery();
                 connectionDb.CloseConnection();
             }
-            catch
+            catch (TemporaryDalException)
             {
-                throw new Exception("Kan geen peresoon maken");
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (PermanentDalException)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
         /// <summary>
@@ -83,8 +92,8 @@ namespace DALMemoryStore
         /// <returns></returns>
         public PersoonDTO LogIn(string gebruikernaam, string wachtwoord)
         {
-           /* try
-            {*/
+            try
+            {
                 connectionDb.OpenConnection();
                 PersoonDTO persoon = new PersoonDTO();
                 SqlCommand command = new SqlCommand("SELECT WachtwoordHash, Id FROM Persoon WHERE Gebruikersnaam = @gebruikersnaam", connectionDb.connection);
@@ -95,8 +104,8 @@ namespace DALMemoryStore
                     while (dr.Read())
                     {
                         persoon.Id = Convert.ToInt32(dr["Id"]);
-                        persoon.WachtwoordHash = dr["WachtwoordHash"].ToString();
-                        bool isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, persoon.WachtwoordHash);
+                        string WachtwoordHash = dr["WachtwoordHash"].ToString();
+                        bool isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, WachtwoordHash);
                         if (isValid)
                         {
                             persoon = FindByID(persoon.Id);
@@ -113,11 +122,15 @@ namespace DALMemoryStore
                 }
                 connectionDb.CloseConnection();
                 return persoon;
-            /*  }
-              catch
-              {
-                  throw new Exception("Kan niet inloggen");
-              }*/
+            }
+            catch (TemporaryDalException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (PermanentDalException)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
+            }
         }
         /// <summary>
         /// Zoekt een persoon uit met een bepaalde id
@@ -150,9 +163,13 @@ namespace DALMemoryStore
                 connectionDb.CloseConnection();
                 return persoon;
             }
-            catch
+            catch (TemporaryDalException)
             {
-                throw new Exception("Kan geen persoon ophalen");
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (PermanentDalException)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
         public PersoonDTO FindByGebruikersnaam(string gebruikersnaam)
@@ -181,9 +198,13 @@ namespace DALMemoryStore
                 connectionDb.CloseConnection();
                 return persoon;
             }
-            catch
+            catch (TemporaryDalException)
             {
-                throw new Exception("Kan geen persoon ophalen");
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (PermanentDalException)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
     }
