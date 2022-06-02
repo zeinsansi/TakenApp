@@ -6,32 +6,27 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Data.SqlClient;
 using static DALMemoryStore.JsonDatabase;
+using DALMemoryStore.Exceptions;
 
 namespace DALMemoryStore
 {
     public class ConnectionDb
     {
+        //TODO: Add connection string to config file
         public string data = File.ReadAllText(@"C:\Users\Windows 10 Pro\source\repos\TakenApp\DALMemoryStore\DatabaseConfig.json");
         public SqlConnection? connection;
         public Rootobject root;
+
         /// <summary>
-        /// Connect naar de database
+        /// Opens a connection to the database
         /// </summary>
         public void OpenConnection()
         {
-
-            try
+            root = JsonSerializer.Deserialize<Rootobject>(data);
+            if (root != null)
             {
-                root = JsonSerializer.Deserialize<Rootobject>(data);
-                if (root != null)
-                {
-                    connection = new SqlConnection(root.ConnectionString);
-                    connection.Open();
-                }
-            }
-            catch
-            {
-                throw new Exception("Kan geen connectie maken");
+                connection = new SqlConnection(root.ConnectionString);
+                connection.Open();
             }
         }
         /// <summary>
@@ -39,16 +34,8 @@ namespace DALMemoryStore
         /// </summary>
         public void CloseConnection()
         {
-            try
-            {
-                if (connection != null)
-                    connection.Close();
-            }
-            catch
-            {
-                throw new Exception("Kan de connectie niet sluiten");
-            }
-
+            if (connection != null)
+                connection.Close();
         }
     }
 }
