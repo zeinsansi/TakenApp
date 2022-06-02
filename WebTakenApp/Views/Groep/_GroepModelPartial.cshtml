@@ -1,0 +1,39 @@
+﻿@model GroepVM
+
+<!-- Modal -->
+<div class="modal fade" id="groepToevoegen" tabindex="-1" aria-labelledby="groepToevoegenLabel" aria-hidden="true">
+    <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="groepToevoegenLabel">Nieuw Groep</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="Create">
+                    <div class="form-group">
+                        <label asp-for="Naam">Naam</label>
+                        <input asp-for="Naam" class="form-control">
+                        <span asp-validation-for="Naam" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="ProjectNaam">ProjectNaam</label>
+                        <input asp-for="ProjectNaam" class="form-control">
+                        <span asp-validation-for="ProjectNaam" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="ProjectBeschrijving">ProjectBeschrijving</label>
+                        <input asp-for="ProjectBeschrijving" class="form-control">                         
+                        <span asp-validation-for="ProjectBeschrijving" class="text-danger"></span>
+                    </div>
+                    <br />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Annuleren</button>
+                <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("Create","Groep")">Groep maken</button>
+            </div>
+        </div>
+    </div>
+</div>

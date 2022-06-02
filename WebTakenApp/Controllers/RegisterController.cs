@@ -3,6 +3,7 @@ using DALMemoryStore;
 using Microsoft.AspNetCore.Mvc;
 using WebTakenApp.Models;
 using System.Data;
+using DALMemoryStore.Exceptions;
 
 namespace WebTakenApp.Controllers
 {
@@ -21,14 +22,25 @@ namespace WebTakenApp.Controllers
         [HttpPost]
         public IActionResult Create(PersoonVM persoon)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Persoon user = persoon.GetPersoon();
-                persoonContainer.Create(user, persoon.Wachtwoord);
-                ViewBag.Message = "Gebruiker is aangemaakt";
-                return RedirectToAction("Index","Login");
+                if (ModelState.IsValid)
+                {
+                    Persoon user = persoon.GetPersoon();
+                    persoonContainer.Create(user, persoon.Wachtwoord);
+                    ViewBag.Message = "Gebruiker is aangemaakt";
+                    return RedirectToAction("Index", "Login");
+                }
+                return View(persoon);
             }
-            return View(persoon);
+            catch (TemporaryDalException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (PermanentDalException)
+            {
+                throw new TemporaryDalException($"Er is iets fout gegaan");
+            }
         }
     }
 }

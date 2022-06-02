@@ -15,21 +15,33 @@
             {
                 <li><a class="dropdown-item" href="@Url.Action("Index","Taak", new { groepId = groep.Id, persoonId = persoon.Id})">@persoon.Naam</a></li>
             }
+            <li>
+                <form id="myForm" action="/Groep/VoegGroepslidToe" method="Post">
+                    <input type="hidden" name="groepId" value="@groep.Id" />
+                    <div class="form-floating small">
+                        <label for="floatingInput">Gebruikersnaam</label>
+                    </div>
+                    <button type="submit">Toevoegen</button>
+                </form>
+            </li>
         </ul>
     }
 </div>
 <div class="main">
     <div class="container">
-
-        <table class="table table-striped table-hover" style="width:100%">
+        <br />
+        <div class="input-group rounded">
+            <input id="myInput" class=" form-control rounded" placeholder="Search" aria-describedby="search-addon" style="width:auto" />
+        </div>
+        <table class="table table-striped table-hover" style="width:100%" id="takenTable">
             <thead>
                 <tr>
-                    <th scope="col">Naam</th>
-                    <th scope="col">Beschrijving</th>
-                    <th scope="col">Deadline</th>
+                    <th onclick="sortTable(0)" scope="col">Naam</th>
+                    <th onclick="sortTable(1)" scope="col">Beschrijving</th>
+                    <th onclick="sortTable(2)" scope="col">Deadline</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="myList">
                 @foreach (var taak in Model.TaakVM)
                 {
                     int id = taak.Id;
@@ -53,7 +65,7 @@
                             <button type="button" class="btn btn-info" data-toggle="ajax-modal" data-target="#taakToevoegen" data-url="@Url.Action("Update","Taak", new {taakId = taak.Id})">
                                 Update
                             </button>
-                             <button type="button" class="btn btn-info" data-toggle="ajax-modal" data-target="#taakToevoegen" data-url="@Url.Action("Delete","Taak", new {taakId = taak.Id})">
+                            <button type="button" class="btn btn-info" data-toggle="ajax-modal" data-target="#taakToevoegen" data-url="@Url.Action("Delete","Taak", new {taakId = taak.Id})">
                                 Delete
                             </button>
                         </td>
@@ -71,11 +83,4 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
     </div>
-</div>
-@*        <input type="text" class="form-control" id="InputNaam"  placeholder="Naam">
-    <br />
-    <textarea class="form-control" id="InputBeschrijving"rows="4" placeholder="Beschrijving"></textarea>
-    <br />
-    <label for="InputDeadline">Deadline</label>
-    <input  class="form-control" id="InputDeadline" placeholder="Deadline">*@
-
+</div>      

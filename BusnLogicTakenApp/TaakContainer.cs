@@ -63,5 +63,15 @@ namespace BusnLogicTakenApp
             TaakDTO dto = container.FindById(taakId);
             return new Taak(dto);
         }
+        public List<Taak> FindByPersoon(int persoonId)
+        {
+            List<Taak> taken = new List<Taak>();
+            List<TaakDTO> dtos = container.FindByPersoon(persoonId);
+            foreach (TaakDTO dto in dtos)
+            {
+                taken.Add(new Taak(dto));
+            }
+            return taken;
+        }
     }
 }

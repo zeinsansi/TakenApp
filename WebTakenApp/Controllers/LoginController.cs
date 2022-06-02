@@ -1,5 +1,6 @@
 ﻿using BusnLogicTakenApp;
 using DALMemoryStore;
+using DALMemoryStore.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using WebTakenApp.Models;
 
@@ -16,20 +17,33 @@ namespace WebTakenApp.Controllers
         [HttpPost]
         public IActionResult Index(LoginVM login)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (persoonContainer.LogIn(login.Gebruikersnaam, login.Wachtwoord) != null)
+                if (ModelState.IsValid)
                 {
-                    Persoon persoon = persoonContainer.FindByGebruikersnaam(login.Gebruikersnaam);
-                    HttpContext.Session.SetString("PersoonId", persoon.Id.ToString());
-                    return RedirectToAction("Index", "Groep");
+                    if (persoonContainer.LogIn(login.Gebruikersnaam, login.Wachtwoord) != null)
+                    {
+                        Persoon persoon = persoonContainer.FindByGebruikersnaam(login.Gebruikersnaam);
+                        HttpContext.Session.SetString("PersoonId", persoon.Id.ToString());
+                        return RedirectToAction("Index", "Groep");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Gebruikersnaam of wachtwoord is incorrect");
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Gebruikersnaam of wachtwoord is incorrect");
-                }
+                return View();
             }
-            return View();
+            catch (TemporaryDalException ex)
+            {
+                ViewBag.Message = ex.Message;
+                return Content(ex.Message);
+            }
+            catch (PermanentDalException ex)
+            {
+                ViewBag.Message = ex.Message;
+                return Content(ex.Message);
+            }
         }
         public IActionResult Logout()
         {
