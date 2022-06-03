@@ -22,11 +22,19 @@ namespace DALMemoryStore
         /// </summary>
         public void OpenConnection()
         {
-            root = JsonSerializer.Deserialize<Rootobject>(data);
-            if (root != null)
+            try
             {
-                connection = new SqlConnection(root.ConnectionString);
-                connection.Open();
+                root = JsonSerializer.Deserialize<Rootobject>(data);
+                if (root != null)
+                {
+                    connection = new SqlConnection(root.ConnectionString);
+                    connection.Open();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
         /// <summary>
