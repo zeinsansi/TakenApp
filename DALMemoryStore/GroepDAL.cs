@@ -18,16 +18,28 @@ namespace DALMemoryStore
         /// Voegt een groep toe aan de database
         /// </summary>
         /// <param name="groep">GroepDTO</param>
-        public void Create(GroepDTO groep)
+        public GroepDTO Create(GroepDTO groep)
         {
             try
             {
                 GroepDTO groepDTO = null;
                 connectionDb.OpenConnection();
-                SqlCommand command = new SqlCommand(@"INSERT INTO Groep VALUES(@naam", connectionDb.connection);
+                SqlCommand command = new SqlCommand(@"INSERT INTO Groep VALUES(@naam )
+                                            SELECT * FROM Groep 
+                                            WHERE Naam = @naam ", connectionDb.connection);
                 command.Parameters.AddWithValue("@naam", groep.Naam);
-                command.ExecuteNonQuery();
+                SqlDataReader dr = command.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        groepDTO = new GroepDTO(
+                             dr["Naam"].ToString(),
+                             Convert.ToInt32(dr["Id"]));
+                    }
+                }
                 connectionDb.CloseConnection();
+                return groepDTO;
             }
             catch (SqlException)
             {

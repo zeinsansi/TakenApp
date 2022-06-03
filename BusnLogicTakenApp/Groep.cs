@@ -28,6 +28,14 @@ namespace BusnLogicTakenApp
             this.Naam = Naam;
 
         }
+        public Groep(Groep groep)
+        {
+            this.Id = groep.Id;
+            this.Naam = groep.Naam;
+            this.GroepLeden = groep.GroepLeden;
+            this.Project = groep.Project;
+        }
+
         /// <summary>
         /// Controctor voor groep zonder Id
         /// </summary>

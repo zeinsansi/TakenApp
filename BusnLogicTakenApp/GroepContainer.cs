@@ -22,10 +22,10 @@ namespace BusnLogicTakenApp
         /// Maakt een new groep aan
         /// </summary>
         /// <param name="groep">Groep</param>
-        public void Create(Groep groep)
+        public Groep Create(Groep groep)
         {
-            GroepDTO dto = groep.GetDTO();
-            container.Create(dto);
+            GroepDTO dto = container.Create(groep.GetDTO());
+            return new Groep(dto);
         }
        
         /// <summary>

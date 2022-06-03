@@ -70,14 +70,11 @@ namespace WebTakenApp.Controllers
                 {
                     int id = Convert.ToInt32(HttpContext.Session.GetString("PersoonId"));
                     Persoon persoon = persoonContainer.FindById(id);
-                    Groep g = new Groep(groepVM.Naam);
-                    groepContainer.Create(g);
-                    Groep groep = groepContainer.FindByNaam(groepVM.Naam);
+                    Groep groep = groepContainer.Create(groepVM.GetGroep());
                     groep.Project = groepVM.project.GetProject();
                     groep.Project.GroepId = groep.Id;
                     projectContainer.Create(groep.Project);
                     groepContainer.VoegPersoonAanGroep(groep.Id, persoon.Gebruikersnaam);
-                    ViewBag.Message = "Groep is gemaakt";
                     return PartialView("_GroepModelPartial", groepVM);
                 }
                 return View(groepVM);
@@ -94,6 +91,7 @@ namespace WebTakenApp.Controllers
             }
 
         }
+        //TODO: fixen
         [HttpPost]
         public IActionResult VoegGroepslidToe(int groepId, string gebruikersnaam)
         {
