@@ -12,6 +12,7 @@ namespace WebTakenApp.Controllers
         GroepContainer groepContainer = new GroepContainer(new GroepDAL());
         TaakContainer taakContainer = new TaakContainer(new TaakDAL());
         PersoonContainer persoonContainer = new PersoonContainer(new PersoonDAL());
+        ProjectContainer projectContainer = new ProjectContainer(new ProjectDAL());
         public IActionResult Index()
         {
             try
@@ -69,7 +70,12 @@ namespace WebTakenApp.Controllers
                 {
                     int id = Convert.ToInt32(HttpContext.Session.GetString("PersoonId"));
                     Persoon persoon = persoonContainer.FindById(id);
-                    Groep groep = groepContainer.Create(groepVM.GetGroep());
+                    Groep g = new Groep(groepVM.Naam);
+                    groepContainer.Create(g);
+                    Groep groep = groepContainer.FindByNaam(groepVM.Naam);
+                    groep.Project = groepVM.project.GetProject();
+                    groep.Project.GroepId = groep.Id;
+                    projectContainer.Create(groep.Project);
                     groepContainer.VoegPersoonAanGroep(groep.Id, persoon.Gebruikersnaam);
                     ViewBag.Message = "Groep is gemaakt";
                     return PartialView("_GroepModelPartial", groepVM);

@@ -18,35 +18,18 @@ namespace DALMemoryStore
         /// Voegt een groep toe aan de database
         /// </summary>
         /// <param name="groep">GroepDTO</param>
-        public GroepDTO Create(GroepDTO groep)
+        public void Create(GroepDTO groep)
         {
             try
             {
                 GroepDTO groepDTO = null;
                 connectionDb.OpenConnection();
-                SqlCommand command = new SqlCommand(@"INSERT INTO Groep VALUES(@naam , @projectNaam, @projectBeshrijving)
-                                            SELECT * FROM Groep 
-                                            WHERE Naam = @naam and ProjectNaam = @projectNaam and ProjectBeshrijving = @projectBeshrijving", connectionDb.connection);
+                SqlCommand command = new SqlCommand(@"INSERT INTO Groep VALUES(@naam", connectionDb.connection);
                 command.Parameters.AddWithValue("@naam", groep.Naam);
-                command.Parameters.AddWithValue("@projectNaam", groep.ProjectNaam);
-                command.Parameters.AddWithValue("@projectBeshrijving", groep.ProjectNaam);
                 command.ExecuteNonQuery();
-                SqlDataReader dr = command.ExecuteReader();
-                if (dr.HasRows)
-                {
-                    while (dr.Read())
-                    {
-                        groepDTO = new GroepDTO(
-                             dr["Naam"].ToString(),
-                             Convert.ToInt32(dr["Id"]),
-                             dr["ProjectNaam"].ToString(),
-                             dr["ProjectBeshrijving"].ToString());
-                    }
-                }
                 connectionDb.CloseConnection();
-                return groepDTO;
             }
-            catch (IOException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
@@ -78,8 +61,6 @@ namespace DALMemoryStore
                         groepen.Add(new GroepDTO(
                             dr["Naam"].ToString(),
                             Convert.ToInt32(dr["Id"]),
-                            dr["ProjectNaam"].ToString(),
-                            dr["ProjectBeshrijving"].ToString(),
                             persoonDAL.FindByGroepId(Convert.ToInt32(dr["Id"]))));
 
 
@@ -89,11 +70,15 @@ namespace DALMemoryStore
                 connectionDb.CloseConnection();
                 return groepen;
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
@@ -111,6 +96,8 @@ namespace DALMemoryStore
                 where groepId = @Id
                 Delete Taak
                 where groepId = @Id
+                Delete Project
+                where groepId = @Id
                 Delete Groep
                 where Id = @Id";
                 SqlCommand command = new SqlCommand(query, connectionDb.connection);
@@ -118,11 +105,15 @@ namespace DALMemoryStore
                 command.ExecuteNonQuery();
                 connectionDb.CloseConnection();
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
@@ -148,11 +139,15 @@ namespace DALMemoryStore
                 command.ExecuteNonQuery();
                 connectionDb.CloseConnection();
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
@@ -181,23 +176,26 @@ namespace DALMemoryStore
                 connectionDb.CloseConnection();
                 return dto;
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
 
-        private static GroepDTO LeesGroepUitDR(SqlDataReader dr)
+        private GroepDTO LeesGroepUitDR(SqlDataReader dr)
         {
             return new GroepDTO(
                 dr["Naam"].ToString(),
                 Convert.ToInt32(dr["Id"]),
-                dr["ProjectNaam"].ToString(),
-                dr["ProjectBeshrijving"].ToString());
+                persoonDAL.FindByGroepId(Convert.ToInt32(dr["Id"])));
         }
 
         public List<GroepDTO> FindByPersoon(int persoonId)
@@ -219,27 +217,59 @@ namespace DALMemoryStore
                     {
                         while (dr.Read())
                         {
-                            groepen.Add(new GroepDTO(
-                            dr["Naam"].ToString(),
-                            Convert.ToInt32(dr["Id"]),
-                            dr["ProjectNaam"].ToString(),
-                            dr["ProjectBeshrijving"].ToString(),
-                            persoonDAL.FindByGroepId(Convert.ToInt32(dr["Id"]))));
+                            groepen.Add(LeesGroepUitDR(dr));
                         }
                     }
                     connectionDb.CloseConnection();
                     return groepen;
                 }
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
 
+        public GroepDTO FindByNaam(string naam)
+        {
+            try
+            {
+                connectionDb.OpenConnection();
+                string query = @"SELECT * FROM Groep WHERE Naam = @naam";
+                SqlCommand command = new SqlCommand(query, connectionDb.connection);
+                command.Parameters.AddWithValue("@naam", naam);
+                SqlDataReader dr = command.ExecuteReader();
+                GroepDTO dto = null;
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        dto = LeesGroepUitDR(dr);
+                    }
+                }
+                connectionDb.CloseConnection();
+                return dto;
+            }
+            catch (SqlException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
+            }
+        }
     }
 }
