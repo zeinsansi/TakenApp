@@ -22,12 +22,12 @@ namespace BusnLogicTakenApp
         /// Maakt een new groep aan
         /// </summary>
         /// <param name="groep">Groep</param>
-        public Groep Create(Groep groep)
+        public void Create(Groep groep)
         {
             GroepDTO dto = groep.GetDTO();
-            GroepDTO dto2 = container.Create(dto);
-            return new Groep(dto2);
+            container.Create(dto);
         }
+       
         /// <summary>
         /// Zoekt naar een bepaalde groep met bepaalde Id
         /// </summary>
@@ -79,6 +79,11 @@ namespace BusnLogicTakenApp
                 groepen.Add(new Groep(dto));
             }
             return groepen;
+        }
+        public Groep FindByNaam(string naam)
+        {
+            GroepDTO dto = container.FindByNaam(naam);
+            return new Groep(dto);
         }
     }
 }
