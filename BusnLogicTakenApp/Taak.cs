@@ -3,7 +3,7 @@
 namespace BusnLogicTakenApp
 {
     /// <summary>
-    /// TODO: Update summary.
+    /// Deze class is voor de taak die een gebruiker maak
     /// </summary>
     public class Taak
     {
