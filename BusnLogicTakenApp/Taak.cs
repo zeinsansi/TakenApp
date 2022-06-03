@@ -2,6 +2,9 @@
 
 namespace BusnLogicTakenApp
 {
+    /// <summary>
+    /// Deze class is voor de taak die een gebruiker maak
+    /// </summary>
     public class Taak
     {
         //Fields
@@ -11,6 +14,7 @@ namespace BusnLogicTakenApp
         public DateTime Deadline { get; private set; }
         public int PersoonId { get; private set; }
         public int GroepId { get; private set; }
+        
         /// <summary>
         /// Constructor voor Taak
         /// </summary>

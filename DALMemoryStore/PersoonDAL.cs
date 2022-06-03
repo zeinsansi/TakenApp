@@ -47,11 +47,15 @@ namespace DALMemoryStore
                     return Groepsleden;
                 }
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
@@ -75,11 +79,15 @@ namespace DALMemoryStore
                 command.ExecuteNonQuery();
                 connectionDb.CloseConnection();
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
@@ -123,11 +131,15 @@ namespace DALMemoryStore
                 connectionDb.CloseConnection();
                 return persoon;
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
@@ -163,11 +175,15 @@ namespace DALMemoryStore
                 connectionDb.CloseConnection();
                 return persoon;
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }
@@ -198,11 +214,15 @@ namespace DALMemoryStore
                 connectionDb.CloseConnection();
                 return persoon;
             }
-            catch (TemporaryDalException)
+            catch (SqlException)
             {
                 throw new TemporaryDalException($"Check uw verbinding");
             }
-            catch (PermanentDalException)
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
             {
                 throw new PermanentDalException($"Er is iets fout gegaan");
             }

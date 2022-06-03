@@ -7,9 +7,8 @@ namespace WebTakenApp.Models
         //Fields
         public int Id { get; set; }
         public string Naam { get; set; }
-        public string ProjectNaam { get; set; }
-        public string ProjectBeschrijving { get; set; }
         public List<PersoonVM> personen = new List<PersoonVM>();
+        public ProjectVM project { get; set; } = new();
 
         /// <summary>
         /// Constructor voor GroepVM
@@ -22,8 +21,6 @@ namespace WebTakenApp.Models
         {
             Naam = name;
             Id = id;
-            ProjectNaam = projectNaam;
-            ProjectBeschrijving = projectBeschrijving;
         }
         /// <summary>
         /// Constructor voor GroepVM die een groep meekrijgt
@@ -33,8 +30,6 @@ namespace WebTakenApp.Models
         {
             Id = groep.Id;
             Naam = groep.Naam;
-            ProjectNaam = groep.ProjectNaam;
-            ProjectBeschrijving = groep.ProjectBeschrijving;
             foreach (var d in groep.GroepLeden)
             {
                 personen.Add(new PersoonVM(d));
@@ -46,7 +41,7 @@ namespace WebTakenApp.Models
         /// <returns>Groep</returns>
         public Groep GetGroep()
         {
-            return new Groep(Id, Naam, ProjectNaam, ProjectBeschrijving);
+            return new Groep(Id, Naam);
         }
         
         public GroepVM()

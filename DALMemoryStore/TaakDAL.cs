@@ -1,4 +1,5 @@
-﻿using InterFaceLibrary;
+﻿using DALMemoryStore.Exceptions;
+using InterFaceLibrary;
 using System.Data.SqlClient;
 
 namespace DALMemoryStore
@@ -43,16 +44,24 @@ namespace DALMemoryStore
                     return taken;
                 }
             }
-            catch
+            catch (SqlException)
             {
-                throw new Exception("Kan geen taken ophalen");
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
         /// <summary>
         /// Verwijdert een taak
         /// </summary>
         /// <param name="taak">Taak</param>
-        public void Delete(int taakId) 
+        public void Delete(int taakId)
         {
             try
             {
@@ -62,9 +71,17 @@ namespace DALMemoryStore
                 command.ExecuteNonQuery();
                 connectionDb.CloseConnection();
             }
-            catch
+            catch (SqlException)
             {
-                throw new Exception("Kan geen taak verwijderen");
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
         /// <summary>
@@ -87,51 +104,132 @@ namespace DALMemoryStore
                 command.ExecuteNonQuery();
                 connectionDb.CloseConnection();
             }
-            catch
+            catch (SqlException)
             {
-                throw new Exception("Kan geen taak maken");
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
 
         public TaakDTO FindById(int taakId)
         {
-            connectionDb.OpenConnection();
-            string query = @"SELECT * FROM Taak 
-                 WHERE Id = @taakId";
-            using (SqlCommand command = new(query, connectionDb.connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+            try
             {
-                command.Parameters.AddWithValue("@taakId", taakId);
-                SqlDataReader dr = command.ExecuteReader();
-                if (dr.HasRows)
+                connectionDb.OpenConnection();
+                string query = @"SELECT * FROM Taak 
+                 WHERE Id = @taakId";
+                using (SqlCommand command = new(query, connectionDb.connection))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                 {
-                    while (dr.Read())
+                    command.Parameters.AddWithValue("@taakId", taakId);
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
                     {
-                        return new TaakDTO(
-                            Convert.ToInt32(dr["Id"]),
-                            dr["Naam"].ToString(),
-                            dr["Beschrijving"].ToString(),
-                            Convert.ToDateTime(dr["Deadline"]),
-                            Convert.ToInt32(dr["persoonId"]),
-                            Convert.ToInt32(dr["groepId"]));
+                        while (dr.Read())
+                        {
+                            return new TaakDTO(
+                                Convert.ToInt32(dr["Id"]),
+                                dr["Naam"].ToString(),
+                                dr["Beschrijving"].ToString(),
+                                Convert.ToDateTime(dr["Deadline"]),
+                                Convert.ToInt32(dr["persoonId"]),
+                                Convert.ToInt32(dr["groepId"]));
+                        }
                     }
+                    connectionDb.CloseConnection();
+                    return null;
                 }
-                connectionDb.CloseConnection();
-                return null;
+            }
+            catch (SqlException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
             }
         }
 
         public void Update(TaakDTO taak)
         {
-            connectionDb.OpenConnection();
-            SqlCommand command = new SqlCommand("UPDATE Taak SET Naam = @naam , Beschrijving = @beschrijving , Deadline = @deadline WHERE Id = @taakId", connectionDb.connection);
-            command.Parameters.AddWithValue("@naam", taak.Naam);
-            command.Parameters.AddWithValue("@beschrijving", taak.Beschrijving);
-            command.Parameters.AddWithValue("@deadline", taak.Deadline);
-            command.Parameters.AddWithValue("@taakId", taak.Id);
-            command.ExecuteNonQuery();
-            connectionDb.CloseConnection();
-            
+            try
+            {
+                connectionDb.OpenConnection();
+                SqlCommand command = new SqlCommand("UPDATE Taak SET Naam = @naam , Beschrijving = @beschrijving , Deadline = @deadline WHERE Id = @taakId", connectionDb.connection);
+                command.Parameters.AddWithValue("@naam", taak.Naam);
+                command.Parameters.AddWithValue("@beschrijving", taak.Beschrijving);
+                command.Parameters.AddWithValue("@deadline", taak.Deadline);
+                command.Parameters.AddWithValue("@taakId", taak.Id);
+                command.ExecuteNonQuery();
+                connectionDb.CloseConnection();
+            }
+            catch (SqlException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
+            }
         }
+        public List<TaakDTO> FindByPersoon(int persoonId)
+        {
+            try
+            {
+                List<TaakDTO> taken = new List<TaakDTO>();
+                connectionDb.OpenConnection();
+                string query = @"SELECT * FROM Taak 
+                 WHERE persoonId = @persoonId";
+                using (SqlCommand command = new(query, connectionDb.connection))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                {
+                    command.Parameters.AddWithValue("@persoonId", persoonId);
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            taken.Add(new TaakDTO(
+                                Convert.ToInt32(dr["Id"]),
+                                dr["Naam"].ToString(),
+                                dr["Beschrijving"].ToString(),
+                                Convert.ToDateTime(dr["Deadline"]),
+                                Convert.ToInt32(dr["persoonId"]),
+                                Convert.ToInt32(dr["groepId"])));
+                        }
+                    }
+                    connectionDb.CloseConnection();
+                    return taken;
+                }
+            }
+            catch (SqlException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new TemporaryDalException($"Check uw verbinding");
+            }
+            catch (Exception)
+            {
+                throw new PermanentDalException($"Er is iets fout gegaan");
+            }
+        }
+
     }
 }

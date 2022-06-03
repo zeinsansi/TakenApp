@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BusnLogicTakenApp
 {
+    /// <summary>
+    /// Deze class is voor persoon die als groepslid in een groep zit
+    /// </summary>
     public class Persoon
     {
         //Fields
