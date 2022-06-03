@@ -11,29 +11,21 @@ namespace InterFaceLibrary
         //Fields
         public string Naam { get; set; }
         public int Id { get; set; }
-        public string ProjectNaam { get; set; }
-        public string ProjectBeschrijving { get; set; }
         public List<PersoonDTO> GroepLeden = new List<PersoonDTO>();
+        public ProjectDTO project { get; set; } = new();
         /// <summary>
         /// Constructor voor groep
         /// </summary>
         /// <param name="name">Groep Naam</param> 
         /// <param name="id">Groep Id</param>
-        /// <param name="projectNaam">Project Naam</param>
-        /// <param name="projectBeschrijving">Project Beschrijving</param>
-        public GroepDTO(string name, int id, string projectNaam, string projectBeschrijving)
+        public GroepDTO(string name, int id)
         {
             Naam = name;
             Id = id;
-            ProjectNaam = projectNaam;
-            ProjectBeschrijving = projectBeschrijving;
         }
-        public GroepDTO(string name, int id, string projectNaam, string projectBeschrijving, List<PersoonDTO> groepLeden)
+        public GroepDTO(string name, int id,  List<PersoonDTO> groepLeden)
         {
             Naam = name;
-            Id = id;
-            ProjectNaam = projectNaam;
-            ProjectBeschrijving = projectBeschrijving;
             GroepLeden = groepLeden;
         }
 

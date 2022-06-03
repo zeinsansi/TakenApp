@@ -24,9 +24,9 @@ namespace TakenAppFront
         {
             if (tbGreopNaam.Text != "" && tbProjectNaam.Text != "" && tbProjectBeshrijving.Text != "")
             {
-                Groep groep = new Groep(tbGreopNaam.Text, tbProjectNaam.Text, tbProjectBeshrijving.Text);
+                /*Groep groep = new Groep(tbGreopNaam.Text, tbProjectNaam.Text, tbProjectBeshrijving.Text);
                 groepContainer.Create(groep);
-                MessageBox.Show("Groep is aangemaakt");
+                MessageBox.Show("Groep is aangemaakt");*/
             }
             else
             {
